@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-_*59l-0!!^pgyl!idy5@vckm1)t(aojdagjl*8=1(-d9@!nh%n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*',]
+ALLOWED_HOSTS = [
+    'arielete.pythonanywhere.com',
+    'www.arielete.pythonanywhere.com',
+]
 
 
 # Application definition
