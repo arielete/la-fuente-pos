@@ -114,11 +114,12 @@ def nueva_venta(request):
                     producto = Producto.objects.get(id=item['producto_id'])
                     cantidad = Decimal(str(item['cantidad']))
 
-                    if producto.tipo != 'venta' and producto.stock < cantidad:
-                        messages.error(
-                        request,
-                        f"No hay stock suficiente para {producto.nombre}"
-                    )
+                    if producto.tipo != 'Producto de venta':
+                        if producto.stock is not None and producto.stock < cantidad:
+                            messages.error(
+            request,
+            f"No hay stock suficiente para {producto.nombre}"
+        )
                     return redirect('nueva_venta')
 
                     subtotal = Decimal(str(item['subtotal']))
