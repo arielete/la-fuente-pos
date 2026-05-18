@@ -30,7 +30,9 @@ def nueva_venta(request):
 
         if accion == 'eliminar':
             indice = int(request.POST.get('indice'))
-            carrito.pop(indice)
+
+            if 0 <= indice < len(carrito):
+                carrito.pop(indice)
 
             request.session['carrito'] = carrito
             request.session.modified = True
@@ -39,7 +41,6 @@ def nueva_venta(request):
 
         if accion == 'agregar':
             producto_form = AgregarProductoForm(request.POST)
-            venta_form = ConfirmarVentaForm()
 
             if producto_form.is_valid():
                 producto = producto_form.cleaned_data['producto']
@@ -61,14 +62,13 @@ def nueva_venta(request):
                 return redirect('nueva_venta')
 
         if accion == 'confirmar':
-            producto_form = AgregarProductoForm()
             venta_form = ConfirmarVentaForm(request.POST)
 
+            if not carrito:
+                messages.error(request, 'No puedes registrar una venta sin productos.')
+                return redirect('nueva_venta')
+
             if venta_form.is_valid():
-                
-                if not carrito:
-                    messages.error(request, 'No puedes registrar una venta sin productos.')
-                    return redirect('nueva_venta')
 
                 folio = venta_form.cleaned_data['folio']
                 mesa = venta_form.cleaned_data['mesa']
@@ -76,9 +76,10 @@ def nueva_venta(request):
                 dependiente = venta_form.cleaned_data['dependiente']
                 efectivo = venta_form.cleaned_data['efectivo']
                 transferencia = venta_form.cleaned_data['transferencia']
+
                 total = Decimal(str(sum(item['subtotal'] for item in carrito)))
                 total_pagado = efectivo + transferencia
-                
+
                 hoy = timezone.now().date()
 
                 if folio:
@@ -88,17 +89,37 @@ def nueva_venta(request):
                     ).exists()
 
                     if folio_existente:
-                        messages.error(request,f'Ya existe una comanda con el folio {folio} en el día de hoy.')
+                        messages.error(
+                            request,
+                            f'Ya existe una comanda con el folio {folio} en el día de hoy.'
+                        )
                         return redirect('nueva_venta')
 
                 if total_pagado < total:
-                    messages.error(request, f"Pago insuficiente. Total: ${total}")
-                    return redirect('nueva_venta')
-                
-                if total_pagado > total:
-                    messages.error(request,f'El pago no puede ser mayor que el total. Total exacto: ${total}')
+                    messages.error(request, f'Pago insuficiente. Total: ${total}')
                     return redirect('nueva_venta')
 
+                if total_pagado > total:
+                    messages.error(
+                        request,
+                        f'El pago no puede ser mayor que el total. Total exacto: ${total}'
+                    )
+                    return redirect('nueva_venta')
+
+                # Validar stock antes de guardar la venta
+                for item in carrito:
+                    producto = Producto.objects.get(id=item['producto_id'])
+                    cantidad = Decimal(str(item['cantidad']))
+
+                    if producto.tipo != 'venta':
+                        if producto.stock is not None and producto.stock < cantidad:
+                            messages.error(
+                                request,
+                                f'No hay stock suficiente para {producto.nombre}'
+                            )
+                            return redirect('nueva_venta')
+
+                # Crear venta
                 venta = Venta.objects.create(
                     usuario=request.user,
                     folio=folio,
@@ -110,18 +131,10 @@ def nueva_venta(request):
                     transferencia=transferencia
                 )
 
+                # Crear detalles y descontar stock
                 for item in carrito:
                     producto = Producto.objects.get(id=item['producto_id'])
                     cantidad = Decimal(str(item['cantidad']))
-
-                    if producto.tipo != 'Producto de venta':
-                        if producto.stock is not None and producto.stock < cantidad:
-                            messages.error(
-            request,
-            f"No hay stock suficiente para {producto.nombre}"
-        )
-                    return redirect('nueva_venta')
-
                     subtotal = Decimal(str(item['subtotal']))
 
                     DetalleVenta.objects.create(
@@ -136,9 +149,7 @@ def nueva_venta(request):
                         stock_anterior = producto.stock
 
                         producto.stock -= cantidad
-
                         stock_nuevo = producto.stock
-
                         producto.save()
 
                         MovimientoInventario.objects.create(
@@ -148,19 +159,23 @@ def nueva_venta(request):
                             stock_anterior=stock_anterior,
                             stock_nuevo=stock_nuevo,
                             usuario=request.user,
-                            descripcion=f"Venta #{venta.id}"
+                            descripcion=f'Venta #{venta.id}'
                         )
-                    request.session['carrito'] = []
+
+                request.session['carrito'] = []
                 request.session.modified = True
 
                 messages.success(request, 'Venta registrada correctamente.')
                 return redirect('nueva_venta')
 
+            messages.error(request, 'Revisa los datos de la comanda y el pago.')
+            return redirect('nueva_venta')
+
     producto_form = AgregarProductoForm()
     venta_form = ConfirmarVentaForm()
 
     total_general = sum(item['subtotal'] for item in carrito)
-    
+
     productos = Producto.objects.filter(
         activo=True
     ).select_related('categoria').order_by(
@@ -179,7 +194,7 @@ def nueva_venta(request):
         'venta_form': venta_form,
         'carrito': carrito,
         'total_general': total_general,
-        'productos_por_categoria':dict(productos_por_categoria)
+        'productos_por_categoria': dict(productos_por_categoria)
     })
     
 
