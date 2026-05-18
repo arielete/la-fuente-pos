@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+
+{% block title %}Nueva Venta{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Nueva Venta</h1>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="row">
+
+    <div class="col-12">
+        <div class="card shadow-sm mb-4">
+            <div class="card shadow-sm mb-4">
+    <div class="card-header">
+        Agregar producto
+    </div>
+
+    <div class="card-body" style="max-height: 520px; overflow-y: auto;">
+
+        <input 
+            type="text" 
+            id="buscadorProductos" 
+            class="form-control mb-3" 
+            placeholder="Buscar producto..."
+        >
+
+        {% for categoria, productos in productos_por_categoria.items %}
+            <div class="categoria-bloque mb-4">
+                <h5 class="border-bottom pb-2">{{ categoria }}</h5>
+
+                <div class="row g-2">
+                    {% for producto in productos %}
+                        <div class="col-md-6 producto-card" data-nombre="{{ producto.nombre|lower }}">
+                            <div class="card h-100">
+                                <div class="card-body p-2">
+
+                                    <strong>{{ producto.nombre }}</strong>
+                                    <div class="text-muted small">
+                                        ${{ producto.precio }} | Stock: {{ producto.stock }}
+                                    </div>
+
+                                    <form method="POST" class="mt-2">
+                                        {% csrf_token %}
+
+                                        <input type="hidden" name="accion" value="agregar">
+                                        <input type="hidden" name="producto" value="{{ producto.id }}">
+
+                                        <div class="input-group input-group-sm">
+                                            <input 
+                                                type="number" 
+                                                name="cantidad" 
+                                                class="form-control" 
+                                                value="1" 
+                                                min="0.01" 
+                                                step="0.01"
+                                            >
+
+                                            <button class="btn btn-primary" type="submit">
+                                                +
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                Carrito de venta
+            </div>
+
+            <div class="card-body">
+                <table class="table table-striped carrito-table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for item in carrito %}
+<tr>
+    <td>{{ item.nombre }}</td>
+    <td>{{ item.cantidad }}</td>
+    <td>${{ item.precio }}</td>
+    <td>${{ item.subtotal }}</td>
+    <td>
+        <form method="POST" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="accion" value="eliminar">
+            <input type="hidden" name="indice" value="{{ forloop.counter0 }}">
+            <button type="submit" class="btn btn-danger btn-sm">
+                Eliminar
+            </button>
+        </form>
+    </td>
+</tr>
+{% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                No hay productos en el carrito.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <h3 class="text-end">
+                    Total: ${{ total_general }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        Datos de la comanda y pago
+    </div>
+
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="accion" value="confirmar">
+
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Folio</label>
+                    {{ venta_form.folio }}
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Mesa</label>
+                    {{ venta_form.mesa }}
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">No. Personas</label>
+                    {{ venta_form.numero_personas }}
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Dependiente</label>
+                    {{ venta_form.dependiente }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Efectivo</label>
+                    {{ venta_form.efectivo }}
+                </div><div class="col-md-6 mb-3">
+                    <label class="form-label">Transferencia</label>
+                    {{ venta_form.transferencia }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">
+                Confirmar venta
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const buscador = document.getElementById('buscadorProductos');
+    const productos = document.querySelectorAll('.producto-card');
+
+    buscador.addEventListener('input', function () {
+        const texto = this.value.toLowerCase();
+
+        productos.forEach(function (producto) {
+            const nombre = producto.dataset.nombre;
+
+            if (nombre.includes(texto)) {
+                producto.style.display = 'block';
+            } else {
+                producto.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+{% endblock %}

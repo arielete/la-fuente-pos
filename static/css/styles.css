@@ -1,0 +1,1186 @@
+:root {
+    --bg-main: #f7f3ed;
+    --bg-soft: #fffaf3;
+    --dark: #101010;
+    --brown: #8b5e3c;
+    --brown-soft: #c8a27a;
+    --text-main: #1f1f1f;
+    --text-muted: #6b625c;
+    --border-soft: #e3d8cc;
+}
+
+/* =========================
+   BODY
+========================= */
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(200, 162, 122, 0.20), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(16, 16, 16, 0.08), transparent 30%),
+        var(--bg-main);
+
+    color: var(--text-main);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar-la-fuente {
+    background: var(--dark);
+    padding: 0.8rem 0;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+.brand-logo {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    background: #f7f3ed;
+    border-radius: 12px;
+    padding: 4px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover .brand-logo {
+    transform: rotate(-4deg) scale(1.06);
+}
+
+.brand-text {
+    letter-spacing: 0.25rem;
+    font-weight: 600;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.nav-link {
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--brown-soft) !important;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main-wrapper {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    animation: fadeInOnly 0.35s ease;
+}
+
+@keyframes fadeInOnly {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    background: rgba(255, 250, 243, 0.92);
+    backdrop-filter: blur(8px);
+
+    border: 1px solid var(--border-soft);
+    border-radius: 18px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.card:not(.modal-content):hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.10);
+}
+
+.card-header {
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border-soft);
+    font-weight: 600;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+    border-radius: 12px;
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 18px rgba(139, 94, 60, 0.25);
+}
+
+.btn-primary,
+.btn-success {
+    border: none;
+    background: var(--brown);
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+    background: #704728;
+}
+
+.btn-warning {
+    background: var(--brown-soft);
+    border: none;
+    color: #111;
+}
+
+/* =========================
+   TABLES
+========================= */
+
+.table {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.table thead th {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.table tbody tr {
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background: #f2e8dc;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge.bg-success {
+    background: var(--brown) !important;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.form-control,
+.form-select {
+    border-radius: 12px;
+    border: 1px solid var(--border-soft);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--brown-soft);
+
+    box-shadow:
+        0 0 0 0.2rem rgba(200, 162, 122, 0.25);
+}
+
+/* =========================
+   MODALS
+========================= */
+
+.modal {
+    z-index: 1060 !important;
+}
+
+.modal-backdrop {
+    z-index: 1050 !important;
+}
+
+.modal-content {
+    position: relative;
+    z-index: 1070 !important;
+    border-radius: 18px;
+    border: none;
+}
+
+.modal .card:hover,
+.modal-content:hover {
+    transform: none !important;
+}
+
+/* =========================
+   LOGIN
+========================= */
+.login-body {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(circle at top,
+        rgba(200, 162, 122, 0.25),
+        transparent 35%),
+
+        linear-gradient(
+            135deg,
+            #101010 0%,
+            #1f1a16 50%,
+            #f7f3ed 50%,
+            #f7f3ed 100%
+        );
+}
+
+.login-wrapper {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2rem;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+
+    background: rgba(255, 250, 243, 0.92);
+
+    border: 1px solid var(--border-soft);
+
+    border-radius: 28px;
+
+    padding: 2.2rem;
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.22);
+
+    backdrop-filter: blur(10px);
+
+    animation: loginAppear 0.6s ease;
+}
+
+@keyframes loginAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.login-logo {
+    width: 110px;
+    height: 110px;
+
+    object-fit: contain;
+
+    border-radius: 24px;
+
+    background: #f7f3ed;
+
+    padding: 8px;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.login-title {
+    margin-top: 1rem;
+
+    letter-spacing: 0.35rem;
+
+    font-weight: 700;
+
+    color: var(--dark);
+}
+
+.login-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 0;
+}
+
+.login-input {
+    padding: 0.75rem 1rem;
+}
+
+.btn-login {
+    background: var(--dark);
+    color: #fff;
+
+    padding: 0.85rem;
+
+    border-radius: 14px;
+}
+
+.btn-login:hover {
+    background: var(--brown);
+    color: #fff;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .brand-text {
+        letter-spacing: 0.12rem;
+        font-size: 0.85rem;
+    }
+
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    .card {
+        border-radius: 14px;
+    }
+
+    .table {
+        font-size: 0.85rem;
+    }
+
+    .login-card {
+        padding: 1.5rem;
+    }
+
+    .login-logo {
+        width: 85px;
+        height: 85px;
+    }
+}
+/* =========================
+   RESPONSIVE GLOBAL
+========================= */
+
+@media (max-width: 768px) {
+    .main-wrapper {
+        padding: 1rem !important;
+    }
+
+    .container-fluid {
+        padding-left: 0.8rem !important;
+        padding-right: 0.8rem !important;
+    }
+
+    .navbar-la-fuente {
+        padding: 0.6rem 0;
+    }
+
+    .brand-logo {
+        width: 36px;
+        height: 36px;
+    }
+
+    .brand-text {
+        font-size: 0.8rem;
+        letter-spacing: 0.12rem;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .card {
+        border-radius: 14px;
+        margin-bottom: 1rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 700px;
+    }
+
+    .btn {
+        padding: 0.55rem 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .modal-dialog {
+        margin: 0.8rem;
+    }
+
+    .modal-content {
+        border-radius: 16px;
+    }
+
+    .modal-body {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+}
+
+/* Nueva venta en móvil */
+@media (max-width: 576px) {
+    .producto-card {
+        width: 100%;
+    }
+
+    .input-group {
+        flex-wrap: nowrap;
+    }
+
+    .card-header {
+        font-size: 0.95rem;
+    }
+
+    .login-card {
+        max-width: 100%;
+        padding: 1.3rem;
+    }
+
+    .login-title {
+        font-size: 1.3rem;
+        letter-spacing: 0.2rem;
+    }
+
+    .login-subtitle {
+        font-size: 0.9rem;
+    }
+}
+/* =========================
+   NUEVA VENTA RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+    #buscadorProductos {
+        font-size: 0.95rem;
+        padding: 0.75rem;
+    }
+
+    .producto-card {
+        margin-bottom: 0.6rem;
+    }
+
+    .producto-card .card {
+        border-radius: 14px;
+    }
+
+    .producto-card .card-body {
+        padding: 0.75rem;
+    }
+
+    .producto-card strong {
+        display: block;
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .producto-card .text-muted {
+        font-size: 0.8rem;
+    }
+
+    .producto-card .input-group {
+        margin-top: 0.5rem;
+    }
+
+    .producto-card input[type="number"] {
+        min-width: 80px;
+    }
+
+    .producto-card button {
+        min-width: 44px;
+    }
+
+    .categoria-bloque h5 {
+        font-size: 1rem;
+        margin-top: 1rem;
+        color: var(--brown);
+    }
+
+    .card-body[style*="max-height"] {
+        max-height: 65vh !important;
+    }
+}
+
+/* Carrito más cómodo en móvil */
+@media (max-width: 576px) {
+    .table {
+        font-size: 0.82rem;
+    }
+
+    .table th,
+    .table td {
+        white-space: nowrap;
+        padding: 0.55rem;
+    }
+
+    h3.text-end {
+        text-align: left !important;
+        font-size: 1.35rem;
+        margin-top: 1rem;
+        color: var(--brown);
+    }
+
+    .row.g-2 > .col-md-6 {
+        width: 100%;
+    }
+
+    .card-header {
+        font-weight: 700;
+    }
+}
+/* =========================
+   CARRITO MOBILE FIX
+========================= */
+
+@media (max-width: 576px) {
+
+    .carrito-table {
+        min-width: 100% !important;
+    }
+
+    .carrito-table thead {
+        display: none;
+    }
+
+    .carrito-table,
+    .carrito-table tbody,
+    .carrito-table tr,
+    .carrito-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .carrito-table tr {
+        background: #fff;
+        border-radius: 14px;
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .carrito-table td {
+        border: none !important;
+        padding: 0.35rem 0;
+        text-align: left !important;
+    }
+
+    .carrito-table td::before {
+        font-weight: 700;
+        color: var(--brown);
+        display: block;
+        margin-bottom: 0.15rem;
+    }
+
+    .carrito-table td:nth-child(1)::before {
+        content: "Producto";
+    }
+
+    .carrito-table td:nth-child(2)::before {
+        content: "Cantidad";
+    }
+
+    .carrito-table td:nth-child(3)::before {
+        content: "Precio";
+    }
+
+    .carrito-table td:nth-child(4)::before {
+        content: "Subtotal";
+    }
+
+    .carrito-table td:nth-child(5)::before {
+        content: "Acción";
+    }
+
+    .carrito-table .btn-danger {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+}
+/* =========================
+   HISTORIAL VENTAS MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+    .historial-venta-table {
+        min-width: 100% !important;
+    }
+
+    .historial-venta-table thead {
+        display: none;
+    }
+
+    .historial-venta-table,
+    .historial-venta-table tbody,
+    .historial-venta-table tr,
+    .historial-venta-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .historial-venta-table tr {
+        background: #fff;
+        border-radius: 14px;
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .historial-venta-table td {
+        border: none !important;
+        padding: 0.35rem 0;
+        text-align: left !important;
+    }
+
+    .historial-venta-table td::before {
+        font-weight: 700;
+        color: var(--brown);
+        display: block;
+        margin-bottom: 0.15rem;
+    }
+
+    .historial-venta-table td:nth-child(1)::before {
+        content: "Cantidad";
+    }
+
+    .historial-venta-table td:nth-child(2)::before {
+        content: "Descripción";
+    }
+
+    .historial-venta-table td:nth-child(3)::before {
+        content: "Precio unitario";
+    }
+
+    .historial-venta-table td:nth-child(4)::before {
+        content: "Importe";
+    }
+
+    .card-header.d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.4rem;
+    }
+
+    .card-body .row .col-md-3 {
+        margin-bottom: 0.5rem;
+    }
+
+    .card-body .row.mt-3 .col-md-4 {
+        margin-bottom: 0.5rem;
+        text-align: left !important;
+    }
+}
+/* =========================
+   PRODUCTOS MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+    .productos-table {
+        min-width: 100% !important;
+    }
+
+    .productos-table thead {
+        display: none;
+    }
+
+    .productos-table,
+    .productos-table tbody,
+    .productos-table tr,
+    .productos-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .productos-table tr {
+        background: #fff;
+        border-radius: 14px;
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .productos-table td {
+        border: none !important;
+        padding: 0.35rem 0;
+        text-align: left !important;
+    }
+
+    .productos-table td::before {
+        font-weight: 700;
+        color: var(--brown);
+        display: block;
+        margin-bottom: 0.15rem;
+    }
+
+    .productos-table td:nth-child(1)::before {
+        content: "Producto";
+    }
+
+    .productos-table td:nth-child(2)::before {
+        content: "Categoría";
+    }
+
+    .productos-table td:nth-child(3)::before {
+        content: "Precio";
+    }
+
+    .productos-table td:nth-child(4)::before {
+        content: "Stock";
+    }
+
+    .productos-table td:nth-child(5)::before {
+        content: "Estado";
+    }
+
+    .productos-table td:nth-child(6)::before {
+        content: "Acciones";
+    }
+
+    .productos-table .btn {
+        width: 100%;
+        margin-top: 0.4rem;
+    }
+}
+/* =========================
+   CIERRE JORNADA MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+    .cierre-table {
+        min-width: 100% !important;
+    }
+
+    .cierre-table thead {
+        display: none;
+    }
+
+    .cierre-table,
+    .cierre-table tbody,
+    .cierre-table tr,
+    .cierre-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .cierre-table tr {
+        background: #fff;
+        border-radius: 14px;
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .cierre-table td {
+        border: none !important;
+        padding: 0.35rem 0;
+        text-align: left !important;
+    }
+
+    .cierre-table td::before {
+        font-weight: 700;
+        color: var(--brown);
+        display: block;
+        margin-bottom: 0.15rem;
+    }
+
+    .cierre-table td:nth-child(1)::before {
+        content: "Hora";
+    }
+
+    .cierre-table td:nth-child(2)::before {
+        content: "Productos";
+    }
+
+    .cierre-table td:nth-child(3)::before {
+        content: "Total";
+    }
+
+    .cierre-table td:nth-child(4)::before {
+        content: "Efectivo";
+    }
+
+    .cierre-table td:nth-child(5)::before {
+        content: "Transferencia";
+    }
+
+    .cierre-table td:nth-child(6)::before {
+        content: "Usuario";
+    }
+
+    .row.mb-4 .col-md-3 {
+        margin-bottom: 1rem;
+    }
+
+    .row.mb-4 .card-body h3 {
+        font-size: 1.45rem;
+        color: var(--brown);
+    }
+}
+/* =========================
+   HISTORIAL CIERRES MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+    .cierres-table {
+        min-width: 100% !important;
+    }
+
+    .cierres-table thead {
+        display: none;
+    }
+
+    .cierres-table,
+    .cierres-table tbody,
+    .cierres-table tr,
+    .cierres-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .cierres-table tr {
+        background: #fff;
+        border-radius: 14px;
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .cierres-table td {
+        border: none !important;
+        padding: 0.35rem 0;
+        text-align: left !important;
+    }
+
+    .cierres-table td::before {
+        font-weight: 700;
+        color: var(--brown);
+        display: block;
+        margin-bottom: 0.15rem;
+    }
+
+    .cierres-table td:nth-child(1)::before {
+        content: "Fecha";
+    }
+
+    .cierres-table td:nth-child(2)::before {
+        content: "Total vendido";
+    }
+
+    .cierres-table td:nth-child(3)::before {
+        content: "Efectivo";
+    }
+
+    .cierres-table td:nth-child(4)::before {
+        content: "Transferencia";
+    }
+
+    .cierres-table td:nth-child(5)::before {
+        content: "Cantidad ventas";
+    }
+
+    .cierres-table td:nth-child(6)::before {
+        content: "Usuario";
+    }
+}
+/* =========================
+   MOVIMIENTOS MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+    .movimientos-table {
+        min-width: 100% !important;
+    }
+
+    .movimientos-table thead {
+        display: none;
+    }
+
+    .movimientos-table,
+    .movimientos-table tbody,
+    .movimientos-table tr,
+    .movimientos-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .movimientos-table tr {
+        background: #fff;
+        border-radius: 14px;
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .movimientos-table td {
+        border: none !important;
+        padding: 0.35rem 0;
+        text-align: left !important;
+    }
+
+    .movimientos-table td::before {
+        font-weight: 700;
+        color: var(--brown);
+        display: block;
+        margin-bottom: 0.15rem;
+    }
+
+    .movimientos-table td:nth-child(1)::before {
+        content: "Fecha";
+    }
+
+    .movimientos-table td:nth-child(2)::before {
+        content: "Producto";
+    }
+
+    .movimientos-table td:nth-child(3)::before {
+        content: "Tipo";
+    }
+
+    .movimientos-table td:nth-child(4)::before {
+        content: "Cantidad";
+    }
+
+    .movimientos-table td:nth-child(5)::before {
+        content: "Stock anterior";
+    }
+
+    .movimientos-table td:nth-child(6)::before {
+        content: "Stock nuevo";
+    }
+
+    .movimientos-table td:nth-child(7)::before {
+        content: "Usuario";
+    }
+
+    .movimientos-table td:nth-child(8)::before {
+        content: "Descripción";
+    }
+}
+/* =========================
+   ENTRADA PRODUCTOS MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+    .entrada-producto-card {
+        border-radius: 16px;
+    }
+
+    .entrada-producto-card .card-header {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .entrada-producto-card .form-label {
+        font-weight: 700;
+        color: var(--brown);
+    }
+
+    .entrada-producto-card .form-control,
+    .entrada-producto-card .form-select {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    .entrada-producto-card .btn {
+        padding: 0.85rem;
+        font-size: 1rem;
+    }
+}
+/* =========================
+   DASHBOARD PRO
+========================= */
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+}
+
+.dashboard-card {
+    min-height: 150px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-card::after {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: rgba(139, 94, 60, 0.12);
+    border-radius: 50%;
+    right: -35px;
+    top: -35px;
+}
+
+.dashboard-card h3 {
+    margin-top: 0.4rem;
+    margin-bottom: 0.25rem;
+    color: var(--brown);
+    font-weight: 800;
+}
+
+.dashboard-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+    letter-spacing: 0.06rem;
+}
+
+.dashboard-card small {
+    color: var(--text-muted);
+}
+
+.dashboard-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.dashboard-list-item:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-actions {
+        width: 100%;
+    }
+
+    .dashboard-actions .btn {
+        flex: 1;
+    }
+
+    .dashboard-card {
+        min-height: 120px;
+    }
+
+    .dashboard-list-item {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+}
+
+
+.modal {
+    z-index: 2000 !important;
+}
+
+.modal-backdrop {
+    z-index: 1990 !important;
+}
+
+.modal-dialog {
+    margin-top: 5rem !important;
+}
+
+/* =========================
+    CATEGORIAS MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+    .categorias-table {
+        min-width: 100% !important;
+    }
+
+    .categorias-table thead {
+        display: none;
+    }
+
+    .categorias-table,
+    .categorias-table tbody,
+    .categorias-table tr,
+    .categorias-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .categorias-table tr {
+        background: #fff;
+        border-radius: 14px;
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .categorias-table td {
+        border: none !important;
+        padding: 0.35rem 0;
+        text-align: left !important;
+    }
+
+    .categorias-table td::before {
+        font-weight: 700;
+        color: var(--brown);
+        display: block;
+        margin-bottom: 0.15rem;
+    }
+
+    .categorias-table td:nth-child(1)::before {
+        content: "Categoría";
+    }
+
+    .categorias-table td:nth-child(2)::before {
+        content: "Estado";
+    }
+
+    .categorias-table td:nth-child(3)::before {
+        content: "Acciones";
+    }
+
+    .categorias-table .btn {
+        width: 100%;
+        margin-top: 0.4rem;
+    }
+}

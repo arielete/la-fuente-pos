@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Historial de Ventas{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Historial de Ventas</h1>
+
+{% for venta in ventas %}
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <strong>Comanda / Venta #{{ venta.id }}</strong>
+            {% if venta.folio %}
+                | Folio: {{ venta.folio }}
+            {% endif %}
+        </div>
+
+        <div>
+            {{ venta.fecha|date:"d/m/Y H:i" }}
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <strong>Mesa:</strong>
+                {{ venta.mesa|default:"-" }}
+            </div>
+
+            <div class="col-md-3">
+                <strong>No. Personas:</strong>
+                {{ venta.numero_personas }}
+            </div>
+
+            <div class="col-md-3">
+                <strong>Dependiente:</strong>
+                {{ venta.dependiente|default:"-" }}
+            </div>
+
+            <div class="col-md-3">
+                <strong>Usuario:</strong>
+                {{ venta.usuario }}
+            </div>
+        </div>
+
+        <table class="table table-bordered table-sm historial-venta-table">
+            <thead>
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Descripción</th>
+                    <th>Precio unitario</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for detalle in venta.detalles.all %}
+                <tr>
+                    <td>{{ detalle.cantidad }}</td>
+                    <td>{{ detalle.producto.nombre }}</td>
+                    <td>${{ detalle.precio_unitario }}</td>
+                    <td>${{ detalle.subtotal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <strong>Total efectivo:</strong>
+                ${{ venta.efectivo }}
+            </div>
+
+            <div class="col-md-4">
+                <strong>Total transferencia:</strong>
+                ${{ venta.transferencia }}
+            </div>
+
+            <div class="col-md-4 text-end">
+                <h5>
+                    <strong>Total general:</strong>
+                    ${{ venta.total }}
+                </h5>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% empty %}
+
+<div class="alert alert-info">
+    No hay ventas registradas.
+</div>
+
+{% endfor %}
+
+{% endblock %}

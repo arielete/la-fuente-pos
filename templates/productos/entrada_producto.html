@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block title %}Entrada de Productos{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+        <div class="card shadow-sm entrada-producto-card">
+
+            <div class="card-header">
+                Registrar Entrada de Productos
+            </div>
+
+            <div class="card-body">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+
+    <label class="form-label fw-bold">
+        Buscar producto
+    </label>
+
+    <input
+        type="text"
+        id="buscadorProductosEntrada"
+        class="form-control mb-3"
+        placeholder="Buscar producto..."
+    >
+
+    <div class="card shadow-sm">
+        <div class="card-body"
+             style="max-height: 450px; overflow-y: auto;">
+
+            {% for categoria, productos_categoria in productos_por_categoria.items %}
+
+                <div class="categoria-bloque mb-4">
+
+                    <h5 class="fw-bold mb-3">
+                        {{ categoria }}
+                    </h5>
+
+                    <div class="row">
+
+                        {% for producto in productos_categoria %}
+
+                        <div class="col-md-4 col-12 producto-card">
+
+                            <div class="card h-100 border-0 shadow-sm producto-seleccionable"
+                                 data-id="{{ producto.id }}"
+                                 data-nombre="{{ producto.nombre }}"
+                                 style="cursor:pointer;">
+
+                                <div class="card-body">
+
+                                    <strong>
+                                        {{ producto.nombre }}
+                                    </strong>
+
+                                    <div class="text-muted small">
+                                        ${{ producto.precio }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+<input type="hidden" name="producto" id="productoSeleccionado">
+<div class="alert alert-info mb-3" id="productoInfo">
+    Ningún producto seleccionado
+</div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Cantidad
+                        </label>
+
+                        {{ form.cantidad }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Motivo
+                        </label>
+
+                        {{ form.motivo }}
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">
+                        Guardar Entrada
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const productos = document.querySelectorAll('.producto-seleccionable');
+const productoInput = document.getElementById('productoSeleccionado');
+const productoInfo = document.getElementById('productoInfo');
+
+productos.forEach(producto => {
+
+    producto.addEventListener('click', () => {
+
+        productos.forEach(p => {
+            p.classList.remove('border-warning');
+            p.classList.remove('border-3');
+        });
+
+        producto.classList.add('border-warning');
+        producto.classList.add('border-3');
+
+        const id = producto.dataset.id;
+        const nombre = producto.dataset.nombre;
+
+        productoInput.value = id;
+
+        productoInfo.innerHTML =
+            `<strong>Producto seleccionado:</strong> ${nombre}`;
+
+    });
+
+});
+
+const buscador = document.getElementById('buscadorProductosEntrada');
+
+buscador.addEventListener('keyup', () => {
+
+    const texto = buscador.value.toLowerCase();
+
+    productos.forEach(producto => {
+
+        const nombre = producto.dataset.nombre.toLowerCase();
+
+        if(nombre.includes(texto)) {
+            producto.parentElement.style.display = 'block';
+        } else {
+            producto.parentElement.style.display = 'none';
+        }
+
+    });
+
+});
+
+</script>
+{% endblock %}

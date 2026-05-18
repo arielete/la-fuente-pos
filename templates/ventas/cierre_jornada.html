@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Cierre de Jornada{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Cierre de Jornada</h1>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="alert alert-info">
+    Fecha: {{ hoy|date:"d/m/Y" }}
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6>Total vendido</h6>
+                <h3>${{ total_vendido }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6>Efectivo</h6>
+                <h3>${{ total_efectivo }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6>Transferencia</h6>
+                <h3>${{ total_transferencia }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6>Cantidad ventas</h6>
+                <h3>{{ cantidad_ventas }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-4">
+    {% if cierre_existente %}
+
+    <div class="d-flex gap-2">
+        <button class="btn btn-secondary" disabled>
+            Cierre ya guardado
+        </button>
+        <a href="{% url 'exportar_cierre_pdf' %}"class="btn btn-danger">Exportar PDF</a>
+    </div>
+
+{% else %}
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">
+                Guardar cierre del día
+            </button>
+        </form>
+    {% endif %}
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        Ventas del día
+    </div>
+
+    <div class="card-body">
+        <table class="table table-striped cierre-table">
+            <thead>
+    <tr>
+        <th>Hora</th>
+        <th>Productos</th>
+        <th>Total</th>
+        <th>Efectivo</th>
+        <th>Transferencia</th>
+        <th>Usuario</th>
+    </tr>
+</thead>
+
+<tbody>
+    {% for venta in ventas_hoy %}
+    <tr>
+        <td>{{ venta.fecha|date:"H:i" }}</td>
+
+        <td>
+            {% for detalle in venta.detalles.all %}
+                <div>
+                    {{ detalle.producto.nombre }}
+                    ({{ detalle.cantidad }})
+                </div>
+            {% endfor %}
+        </td>
+
+        <td>${{ venta.total }}</td>
+        <td>${{ venta.efectivo }}</td>
+        <td>${{ venta.transferencia }}</td>
+        <td>{{ venta.usuario }}</td>
+    </tr>
+    {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">
+                        No hay ventas registradas hoy.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
