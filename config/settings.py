@@ -26,6 +26,8 @@ SECRET_KEY = 'django-insecure-_*59l-0!!^pgyl!idy5@vckm1)t(aojdagjl*8=1(-d9@!nh%n
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost'
     'arielete.pythonanywhere.com',
     'www.arielete.pythonanywhere.com',
 ]

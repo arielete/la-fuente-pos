@@ -21,7 +21,7 @@ class Venta(models.Model):
     transferencia = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     observaciones = models.TextField(blank=True, null=True)
 
-    def str(self):
+    def __str__(self):
         return f"Venta #{self.id} - {self.fecha.strftime('%d/%m/%Y %H:%M')}"
 
     @property
@@ -39,11 +39,14 @@ class DetalleVenta(models.Model):
         Producto,
         on_delete=models.PROTECT
     )
-    cantidad = models.PositiveIntegerField()
+    cantidad = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
 
-    def str(self):
+    def __str__(self):
         return f"{self.producto.nombre} x {self.cantidad}"
     
 class CierreJornada(models.Model):
@@ -62,5 +65,5 @@ class CierreJornada(models.Model):
 
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
-    def str(self):
+    def __str__(self):
         return f"Cierre {self.fecha}"
