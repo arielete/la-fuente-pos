@@ -171,8 +171,21 @@ def nueva_venta(request):
             messages.error(request, 'Revisa los datos de la comanda y el pago.')
             return redirect('nueva_venta')
 
+    hoy = timezone.localdate()
+
+    ultima_venta = Venta.objects.filter(
+        fecha__date=hoy
+    ).order_by('-id').first()
+
+    if ultima_venta and ultima_venta.folio:
+        proximo_folio = str(int(ultima_venta.folio) + 1)
+    else:
+        proximo_folio = '1'
+
     producto_form = AgregarProductoForm()
-    venta_form = ConfirmarVentaForm()
+    venta_form = ConfirmarVentaForm(
+        initial={'folio': proximo_folio}
+    )
 
     total_general = sum(item['subtotal'] for item in carrito)
 
@@ -209,7 +222,18 @@ def historial_ventas(request):
     
 @login_required
 def cierre_jornada(request):
-    hoy = timezone.now().date()
+    hoy = timezone.localdate()
+
+    productos_vendidos = DetalleVenta.objects.filter(
+        venta__fecha__date=hoy
+    ).values(
+        'producto__nombre'
+    ).annotate(
+        cantidad_vendida=Sum('cantidad'),
+        total_vendido=Sum('subtotal')
+    ).order_by(
+        '-cantidad_vendida'
+    ) 
 
     ventas_hoy = Venta.objects.filter(fecha__date=hoy)
 
@@ -245,6 +269,7 @@ def cierre_jornada(request):
         'total_transferencia': total_transferencia,
         'cantidad_ventas': cantidad_ventas,
         'cierre_existente': cierre_existente,
+        'productos_vendidos': productos_vendidos,
     })
     
 @login_required

@@ -16,6 +16,15 @@
     {% endfor %}
 {% endif %}
 
+<div class="mb-3">
+    <input
+        type="text"
+        id="buscadorListaProductos"
+        class="form-control"
+        placeholder="Buscar producto por nombre, categoría o tipo..."
+    >
+</div>
+
 <div class="card shadow-sm">
     <div class="card-header">
         Lista de productos disponibles
@@ -35,7 +44,7 @@
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody id="tablaProductos">
                     {% for producto in productos %}
                     <tr>
                         <td>{{ producto.nombre }}</td>
@@ -253,5 +262,23 @@
             document.body.appendChild(modal);
         });
     });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const buscador = document.getElementById('buscadorListaProductos');
+    const filas = document.querySelectorAll('#tablaProductos tr');
+
+    if (!buscador) return;
+
+    buscador.addEventListener('input', function () {
+        const texto = buscador.value.toLowerCase().trim();
+
+        filas.forEach(fila => {
+            const contenido = fila.textContent.toLowerCase();
+
+            fila.style.display = contenido.includes(texto) ? '' : 'none';
+        });
+    });
+});
 </script>
 {% endblock %}

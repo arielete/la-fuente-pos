@@ -125,4 +125,37 @@
     </div>
 </div>
 
+<div class="card shadow-sm mt-4">
+    <div class="card-header">
+        <h5 class="mb-0">Productos vendidos hoy</h5>
+    </div>
+
+    <div class="card-body">
+        {% if productos_vendidos %}
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad vendida</th>
+                            <th>Total vendido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in productos_vendidos %}
+                        <tr>
+                            <td>{{ item.producto__nombre }}</td>
+                            <td>{{ item.cantidad_vendida }}</td>
+                            <td>${{ item.total_vendido }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-muted mb-0">No hay productos vendidos hoy.</p>
+        {% endif %}
+    </div>
+</div>
+
 {% endblock %}
