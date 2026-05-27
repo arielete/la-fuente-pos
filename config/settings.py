@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'localhost'
+    'localhost',
     'arielete.pythonanywhere.com',
     'www.arielete.pythonanywhere.com',
 ]
